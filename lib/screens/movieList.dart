@@ -13,7 +13,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   void initState() {
 
-    future=Provider.of<FetchMovies>(context,listen: false).fetchTopMovies();
+    future=Provider.of<FetchData>(context,listen: false).fetchTopMovies();
     super.initState();
   }
 

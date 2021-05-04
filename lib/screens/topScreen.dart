@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_mania/models/movie.dart';
 import 'package:movie_mania/screens/detailScreen.dart';
 
 class topWidget extends StatelessWidget {
@@ -25,7 +26,7 @@ class topWidget extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   print(index);
-                  final movie = dataSnapshot.data[index];
+                  final Movie movie = dataSnapshot.data[index];
 
                   return ListTile(
                     title: InkWell(

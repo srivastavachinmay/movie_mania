@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_mania/models/movie.dart';
 import 'package:movie_mania/screens/videoPlayer.dart';
 
 class DetailWidget extends StatelessWidget {
-  final movie;
+  final Movie movie;
 
   DetailWidget({this.movie});
 
