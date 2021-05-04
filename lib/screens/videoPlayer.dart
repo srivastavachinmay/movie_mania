@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movie_mania/models/fetchMovies.dart';
 import 'package:movie_mania/models/movie.dart';
 import 'package:provider/provider.dart';
@@ -21,51 +22,37 @@ class _VideoPlayerState extends State<VideoPlayer> {
     // TODO: implement initState
     future = Provider.of<FetchData>(context, listen: false)
         .fetchVideoDetails(widget.movie.id);
-    // _movieVideo=Provider.of<FetchData>(context,listen: false).movieVideo;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var key;
-
-    future.then((value) {
-      // setState(() {
-      key = value[0].key;
-      // });
-
-      print(key);
-    });
-
-    print('------------==========================----------------');
-    print(key);
-    print('------------==========================----------------');
-
     return FutureBuilder(
-        future: future,
-        builder: (ctx, dataSnapshot) {
-          if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+      future: future,
+      builder: (ctx, dataSnapshot) {
+        if (dataSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          if (dataSnapshot.error != null) {
+            return Center(
+              child: Text('An error occurred!'),
+            );
           } else {
-            if (dataSnapshot.error != null) {
-              return Center(
-                child: Text('An error occurred!'),
-              );
-            } else {
-              return YoutubePlayer(
-                controller: YoutubePlayerController(
-                  initialVideoId: dataSnapshot.data[0].key,
-                  flags: YoutubePlayerFlags(
-                    hideControls: false,
-                    controlsVisibleAtStart: true,
-                    autoPlay: false,
-                    mute: false,
-                  ),
+            return YoutubePlayer(
+              controller: YoutubePlayerController(
+                initialVideoId: dataSnapshot.data[0].key,
+                flags: YoutubePlayerFlags(
+                  hideControls: false,
+                  controlsVisibleAtStart: true,
+                  autoPlay: false,
+                  mute: false,
                 ),
-                showVideoProgressIndicator: true,
-              );
-            }
+              ),
+              showVideoProgressIndicator: true,
+            );
           }
-        });
+        }
+      },
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_mania/models/movie.dart';
 import 'package:movie_mania/screens/detailScreen.dart';
+import 'package:flutter/services.dart';
 
 class topWidget extends StatelessWidget {
 
@@ -30,38 +31,39 @@ class topWidget extends StatelessWidget {
 
                   return ListTile(
                     title: InkWell(
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                  "https://image.tmdb.org/t/p/w500" +
-                                      movie.poster_path),
-                            ),
-                          ),
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(movie.title),
-                                  Text(movie.vote_average.toString()),
-                                ],
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    "https://image.tmdb.org/t/p/w500" +
+                                        movie.poster_path),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      onTap: () =>
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(movie.title),
+                                    Text(movie.vote_average.toString()),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) {
                             return new DetailWidget(
                               movie: movie,
                             );
-                          })),
+                          }));
+                        }
                     ),
                   );
                 },
