@@ -4,7 +4,6 @@ import 'package:movie_mania/screens/detailScreen.dart';
 import 'package:flutter/services.dart';
 
 class topWidget extends StatelessWidget {
-
   final Future _future;
 
   topWidget(this._future);
@@ -48,8 +47,17 @@ class topWidget extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(movie.title),
-                                    Text(movie.vote_average.toString()),
+                                    Text(
+                                      movie.title,
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                    Padding(padding: const EdgeInsets.all(8.0)),
+                                    Text(
+                                      "TMDB Rating: " +
+                                          movie.vote_average.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -57,20 +65,18 @@ class topWidget extends StatelessWidget {
                           ],
                         ),
                         onTap: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
                             return new DetailWidget(
                               movie: movie,
                             );
                           }));
-                        }
-                    ),
+                        }),
                   );
                 },
               );
             }
           }
-        }
-    );
+        });
   }
 }

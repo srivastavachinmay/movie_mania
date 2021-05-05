@@ -10,10 +10,10 @@ class MovieListScreen extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListScreen> {
   Future future;
+
   @override
   void initState() {
-
-    future=Provider.of<FetchData>(context,listen: false).fetchTopMovies();
+    future = Provider.of<FetchData>(context, listen: false).fetchTopMovies();
     super.initState();
   }
 
@@ -23,7 +23,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
       appBar: AppBar(
         title: Text("Top Rated Movies"),
       ),
-      body: topWidget(future),
+      body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.indigo, Colors.teal])),
+          child: topWidget(future)),
     );
   }
 }

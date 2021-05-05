@@ -19,40 +19,56 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     future = Provider.of<FetchData>(context, listen: false)
         .fetchVideoDetails(widget.movie.id);
     super.initState();
   }
 
   @override
+  dispose(){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: future,
-      builder: (ctx, dataSnapshot) {
-        if (dataSnapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          if (dataSnapshot.error != null) {
-            return Center(
-              child: Text('An error occurred!'),
-            );
+        future: future,
+        builder: (ctx, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
           } else {
-            return YoutubePlayer(
-              controller: YoutubePlayerController(
-                initialVideoId: dataSnapshot.data[0].key,
-                flags: YoutubePlayerFlags(
-                  hideControls: false,
-                  controlsVisibleAtStart: true,
-                  autoPlay: false,
-                  mute: false,
+            if (dataSnapshot.error != null) {
+              return Scaffold(
+                body: Center(
+                  child: Text(
+                  'The Api has no trailers to play for this specific movie!!!', textAlign: TextAlign.center, style: TextStyle(fontSize: 30),),
                 ),
-              ),
-              showVideoProgressIndicator: true,
-            );
+              );
+            } else {
+              return YoutubePlayer(
+                controller: YoutubePlayerController(
+                  initialVideoId: dataSnapshot.data[0].key,
+                  flags: YoutubePlayerFlags(
+                    hideControls: false,
+                    controlsVisibleAtStart: true,
+                    autoPlay: false,
+                    mute: false,
+                  ),
+                ),
+                showVideoProgressIndicator: true,
+              );
+            }
           }
-        }
-      },
-    );
+        });
   }
 }
